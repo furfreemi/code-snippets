@@ -1,16 +1,37 @@
-#import "LM+UITableViewController.h"
+#import "LM_UITableViewController.h"
 
-@interface LM+UITableViewController ()
+@interface LM_UITableViewController ()
 
 @end
 
-@implementation LM+UITableViewController {
+@implementation LM_UITableViewController {
 
 }
 
 
 
 #pragma mark - general UIViewController methods, not specific to TVCs
+
+//basic view life cycle: view events
+//called once when VC needs view; not called again unless view has been unloaded
+-(void)viewDidLoad{
+  [super viewDidLoad];
+}
+
+//called every time the view is about to appear
+//called after viewDidLoad (if viewDidLoad is called)
+-(void)viewWillAppear:(BOOL)animated{
+  [super viewWillAppear:animated];
+}
+
+//called every time the view has appeared on screen
+-(void)viewDidAppear{
+
+}
+
+//similar concepts for view disappearance: viewWillDisappear:/viewDidDisappear
+
+
 
 //basic setup methods I've commonly used
 //many assume use of a base navigation controller
@@ -135,9 +156,17 @@
 
 //various ways of reloading or redisplaying portions of the tableview
 -(void)_reloadTableViewAspect{
+
+  //perform a series of updates: don't call reloadData between begin/end
+  //enables simultaneous animation of all updates
+  [self.tableView beginUpdates];
+  //all updates go here: insert/delete/select/etc
+  [self.tableView endUpdates];
+
+  //essentially reloads all visible data: cells, headers/footers, etc
   [self.tableView reloadData];
   
-  //reload visible cells
+  //reload selected cells (in this example, all visible cells)
   //can also reload full sections: reloadSections:withRowAnimation:
   [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationFade];
 
