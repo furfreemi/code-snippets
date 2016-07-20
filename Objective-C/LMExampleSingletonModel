@@ -1,0 +1,28 @@
+#import "LMExampleSingletonModel.h"
+
+@implementation LMExampleSingletonModel {
+
+}
+
+//don't call to create instance of this class
+//just use [LMExampleSingletonModel sharedManager] as singular instance everywhere
+-(instancetype)init{
+  self = [super init];
+  if (self){
+    //customization, setup here
+  }
+  return self;
+}
+
+
++(instancetype)sharedManager {
+    static LMExampleSingletonModel *sharedManagerInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedManagerInstance = [[self alloc] init];
+        //further customize here if needed
+    });
+    return sharedManagerInstance;
+}
+
+@end
